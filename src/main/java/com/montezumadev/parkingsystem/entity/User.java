@@ -6,7 +6,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -25,20 +30,17 @@ public class User {
     @Column(name = "document", nullable = false, length = 11)
     private String document;
 
-    @Basic
-    @Column(name = "car_plate", nullable = false, length = 8)
-    private String carPlate;
+
 
     @Basic
     @Column(name = "phone", nullable = false, length = 11)
     private String phone;
 
-    @Basic
-    @Column(name = "car_color", nullable = false, length = 16)
-    private String carColor;
 
     @Basic
     @Column(name = "loyalty_card", nullable = false)
     private boolean loyaltyCard;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Car> cars;
 }
