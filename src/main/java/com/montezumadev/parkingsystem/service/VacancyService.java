@@ -1,12 +1,11 @@
 package com.montezumadev.parkingsystem.service;
 
+import com.montezumadev.parkingsystem.dto.VacancyDTO;
 import com.montezumadev.parkingsystem.entity.Vacancy;
 import com.montezumadev.parkingsystem.repository.VacancyRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class VacancyService {
         this.vacancyRepository = vacancyRepository;
     }
 
-    public List<Vacancy> findAllVacancies(){
+    public List<Vacancy> findAllVacancies() {
         return vacancyRepository.findAll();
     }
 
@@ -58,5 +57,16 @@ public class VacancyService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public Vacancy updateVacancy(VacancyDTO vacancy) {
+        Vacancy updatedVacancy = vacancyRepository.findById(vacancy.getId()).orElse(null);
+        if (updatedVacancy != null) {
+            updatedVacancy.setStatus(vacancy.getStatus());
+
+            return vacancyRepository.save(updatedVacancy);
+        }
+        return null;
     }
 }

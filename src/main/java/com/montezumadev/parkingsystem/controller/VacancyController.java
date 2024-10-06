@@ -7,6 +7,10 @@ import com.montezumadev.parkingsystem.utils.ParkingSpotResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +31,16 @@ public class VacancyController {
         List<Vacancy> vacancies = vacancyService.findAllVacancies();
         ParkingSpotResponse response = new ParkingSpotResponse(vacancies);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<VacancyDTO> updateVacancy(@PathVariable Long id, @RequestBody VacancyDTO vacancyDTO) {
+        vacancyDTO.setId(id);
+        Vacancy updatedVacancy = vacancyService.updateVacancy(vacancyDTO);
+        if (updatedVacancy != null) {
+            return new ResponseEntity<>(vacancyDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
