@@ -14,7 +14,9 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "vacancy")
 @Data
+
 public class Vacancy {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +44,11 @@ public class Vacancy {
     private boolean isInactive;
 
     @Basic
-    @Column(name = "occupied_at", nullable = false)
+    @Column(name = "occupied_at", nullable = true)
     private Timestamp occupiedAt;
 
     @Basic
-    @Column(name = "unoccupied_at", nullable = false)
+    @Column(name = "unoccupied_at", nullable = true)
     private Timestamp unoccupiedAt;
 
 }
