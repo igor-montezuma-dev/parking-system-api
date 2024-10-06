@@ -23,13 +23,17 @@ public class Vacancy {
     @Column(name = "vacancy_id", nullable = false)
     private Long id;
 
-    @Basic
-    @Column(name = "is_pcd", nullable = false)
-    private boolean isPCD;
+//    @Basic
+//    @Column(name = "is_pcd", nullable = false)
+//    private boolean isPCD;
+//
+//    @Basic
+//    @Column(name = "is_elderly", nullable = false)
+//    private boolean isElderly;
 
     @Basic
-    @Column(name = "is_elderly", nullable = false)
-    private boolean isElderly;
+    @Column(name = "type", nullable = false)
+    private String type;
 
     @Basic
     @Column(name = "is_occupied", nullable = false)
@@ -50,5 +54,9 @@ public class Vacancy {
     @Basic
     @Column(name = "unoccupied_at", nullable = true)
     private Timestamp unoccupiedAt;
+
+    @Basic
+    @Column(name="status", nullable = false)
+    private String status;
 
 }

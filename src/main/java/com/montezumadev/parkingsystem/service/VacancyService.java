@@ -40,13 +40,15 @@ public class VacancyService {
                 vacancy.setAvailable(true);
                 vacancy.setOccupied(false);
                 vacancy.setInactive(false);
-                vacancy.setPCD(false);
-                vacancy.setElderly(false);
-                vacancy.setOccupiedAt(Timestamp.valueOf(LocalDateTime.now()));
+                vacancy.setOccupiedAt(null);
+                vacancy.setStatus("available");
 
                 if (i < exclusiveVacancies) {
-                    vacancy.setPCD(true);
-                    vacancy.setElderly(true);
+                    vacancy.setType("elderly");
+                } else if (i < 2 * exclusiveVacancies) {
+                    vacancy.setType("pcd");
+                } else {
+                    vacancy.setType("normal");
                 }
 
                 vacancies.add(vacancy);

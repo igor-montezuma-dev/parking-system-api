@@ -1,7 +1,9 @@
 package com.montezumadev.parkingsystem.controller;
 
+import com.montezumadev.parkingsystem.dto.VacancyDTO;
 import com.montezumadev.parkingsystem.entity.Vacancy;
 import com.montezumadev.parkingsystem.service.VacancyService;
+import com.montezumadev.parkingsystem.utils.ParkingSpotResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +23,9 @@ public class VacancyController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Vacancy>> getAllVacancies() {
+    public ResponseEntity<ParkingSpotResponse> getAllVacancies() {
         List<Vacancy> vacancies = vacancyService.findAllVacancies();
-        return new ResponseEntity<>(vacancies, HttpStatus.OK);
+        ParkingSpotResponse response = new ParkingSpotResponse(vacancies);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

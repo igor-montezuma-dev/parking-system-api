@@ -11,4 +11,5 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
 
 
 
+
 }
