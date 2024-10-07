@@ -6,6 +6,7 @@ import com.montezumadev.parkingsystem.repository.VacancyRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,8 @@ public class VacancyService {
     }
 
     public List<Vacancy> findAllVacancies() {
-        return vacancyRepository.findAll();
+        return vacancyRepository.findAllOrderedById();
     }
-
 
     @PostConstruct
     public void populateDatabase() {
@@ -60,13 +60,29 @@ public class VacancyService {
     }
 
 
-    public Vacancy updateVacancy(VacancyDTO vacancy) {
-        Vacancy updatedVacancy = vacancyRepository.findById(vacancy.getId()).orElse(null);
+    public Vacancy updateVacancy(VacancyDTO vacancyDTO) {
+        Vacancy updatedVacancy = vacancyRepository.findById(vacancyDTO.getId()).orElse(null);
         if (updatedVacancy != null) {
-            updatedVacancy.setStatus(vacancy.getStatus());
-
-            return vacancyRepository.save(updatedVacancy);
+            updatedVacancy.setStatus(vacancyDTO.getStatus());
+            if (vacancyDTO.getStatus().equals("occupied")) {
+                updatedVacancy.setOccupied(true);
+                updatedVacancy.setAvailable(false);
+                if (vacancyDTO.getOccupiedAt() != null) {
+                    updatedVacancy.setOccupiedAt(Timestamp.from(vacancyDTO.getOccupiedAt().toInstant()));
+                } else {
+                    updatedVacancy.setOccupiedAt(null);
+                }
+            } else if (vacancyDTO.getStatus().equals("available")) {
+                updatedVacancy.setOccupied(false);
+                updatedVacancy.setAvailable(true);
+                updatedVacancy.setOccupiedAt(null);
+            } else if (vacancyDTO.getStatus().equals("inactive")) {
+                updatedVacancy.setOccupied(false);
+                updatedVacancy.setAvailable(false);
+                updatedVacancy.setOccupiedAt(null);
+            }
+            vacancyRepository.save(updatedVacancy);
         }
-        return null;
+        return updatedVacancy;
     }
 }
