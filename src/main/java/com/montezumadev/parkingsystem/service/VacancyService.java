@@ -60,6 +60,18 @@ public class VacancyService {
     }
 
 
+    public VacancyDTO getSPotById(Long id) {
+        Vacancy vacancy = vacancyRepository.findById(id).orElse(null);
+        if (vacancy != null) {
+            VacancyDTO vacancyDTO = new VacancyDTO();
+            vacancyDTO.setId(vacancy.getId());
+            vacancyDTO.setStatus(vacancy.getStatus());
+            vacancyDTO.setOccupiedAt(vacancy.getOccupiedAt());
+            return vacancyDTO;
+        }
+        return null;
+    }
+
     public Vacancy updateVacancy(VacancyDTO vacancyDTO) {
         Vacancy updatedVacancy = vacancyRepository.findById(vacancyDTO.getId()).orElse(null);
         if (updatedVacancy != null) {

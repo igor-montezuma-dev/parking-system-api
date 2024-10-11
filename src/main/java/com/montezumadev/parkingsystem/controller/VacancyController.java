@@ -33,6 +33,16 @@ public class VacancyController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<VacancyDTO> getSpotById(@PathVariable Long id) {
+        VacancyDTO parkingSpot = vacancyService.getSPotById(id);
+        if (parkingSpot != null) {
+            return new ResponseEntity<>(parkingSpot, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<VacancyDTO> updateVacancy(@PathVariable Long id, @RequestBody VacancyDTO vacancyDTO) {
         vacancyDTO.setId(id);
