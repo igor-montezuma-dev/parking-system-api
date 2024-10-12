@@ -14,7 +14,11 @@ public class ParkingSpotResponse {
     private long totalAvailable;
     private long totalInactive;
 
-    public ParkingSpotResponse(List<Vacancy> parkingSpots, long totalVacancies, long totalOccupied, long totalAvailable, long totalInactive) {
+    public ParkingSpotResponse(List<Vacancy> parkingSpots,
+                               long totalVacancies,
+                               long totalOccupied,
+                               long totalAvailable,
+                               long totalInactive) {
         this.parkingSpots = parkingSpots;
         this.totalVacancies = totalVacancies;
         this.totalOccupied = totalOccupied;

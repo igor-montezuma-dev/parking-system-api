@@ -19,11 +19,6 @@ public class VacancyService {
 
     private VacancyRepository vacancyRepository;
     private List<Vacancy> vacancies;
-    private long totalVacancies;
-    private long totalOccupied;
-    private long totalAvailable;
-    private long totalInactive;
-
 
 
     public VacancyService(VacancyRepository vacancyRepository) {

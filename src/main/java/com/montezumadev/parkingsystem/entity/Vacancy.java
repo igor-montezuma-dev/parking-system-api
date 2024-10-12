@@ -23,13 +23,6 @@ public class Vacancy {
     @Column(name = "vacancy_id", nullable = false)
     private Long id;
 
-//    @Basic
-//    @Column(name = "is_pcd", nullable = false)
-//    private boolean isPCD;
-//
-//    @Basic
-//    @Column(name = "is_elderly", nullable = false)
-//    private boolean isElderly;
 
     @Basic
     @Column(name = "type", nullable = false)
@@ -58,5 +51,9 @@ public class Vacancy {
     @Basic
     @Column(name="status", nullable = false)
     private String status;
+
+    public boolean isInactive() {
+        return "inactive".equalsIgnoreCase(this.status);
+    }
 
 }
