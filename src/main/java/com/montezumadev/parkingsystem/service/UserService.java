@@ -26,5 +26,15 @@ public class UserService {
         return ResponseEntity.ok("Usuário cadastrado com sucesso! ");
     }
 
+    public ResponseEntity<String> getUserByDocument(String document) {
+
+        User user = userRepository.findUserByDocument(document);
+        if (user != null) {
+            return ResponseEntity.ok("Usuário encontrado: " + user.getName());
+        } else {
+            return ResponseEntity.badRequest().body("Usuário não encontrado.");
+        }
+    }
+
 
 }
