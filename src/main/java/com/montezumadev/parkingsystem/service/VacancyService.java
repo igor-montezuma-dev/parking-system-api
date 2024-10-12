@@ -3,7 +3,11 @@ package com.montezumadev.parkingsystem.service;
 import com.montezumadev.parkingsystem.dto.VacancyDTO;
 import com.montezumadev.parkingsystem.entity.Vacancy;
 import com.montezumadev.parkingsystem.repository.VacancyRepository;
+import com.montezumadev.parkingsystem.utils.VacancySummary;
 import jakarta.annotation.PostConstruct;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -14,14 +18,28 @@ import java.util.List;
 public class VacancyService {
 
     private VacancyRepository vacancyRepository;
+    private List<Vacancy> vacancies;
+    private long totalVacancies;
+    private long totalOccupied;
+    private long totalAvailable;
+    private long totalInactive;
+
+
 
     public VacancyService(VacancyRepository vacancyRepository) {
         this.vacancyRepository = vacancyRepository;
     }
 
-    public List<Vacancy> findAllVacancies() {
-        return vacancyRepository.findAllOrderedById();
+    public VacancySummary findAllVacancies() {
+        List<Vacancy> vacancies = vacancyRepository.findAllOrderedById();
+        long totalVacancies = vacancies.size();
+        long totalOccupied = vacancies.stream().filter(Vacancy::isOccupied).count();
+        long totalAvailable = vacancies.stream().filter(Vacancy::isAvailable).count();
+        long totalInactive = vacancies.stream().filter(Vacancy::isInactive).count();
+
+        return new VacancySummary(vacancies, totalVacancies, totalOccupied, totalAvailable, totalInactive);
     }
+
 
     @PostConstruct
     public void populateDatabase() {
@@ -96,5 +114,11 @@ public class VacancyService {
             vacancyRepository.save(updatedVacancy);
         }
         return updatedVacancy;
+    }
+
+
+    public Page<Vacancy> findVacanciesByStatus(String status, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return vacancyRepository.findByStatus(status, pageable);
     }
 }
